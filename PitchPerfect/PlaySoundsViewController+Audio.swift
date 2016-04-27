@@ -8,6 +8,7 @@ import UIKit
 import AVFoundation
 
 extension PlaySoundsViewController: AVAudioPlayerDelegate {
+    //All alerts
     struct Alerts {
         static let DismissAlert = "Dismiss"
         static let RecordingDisabledTitle = "Recording Disabled"
@@ -98,6 +99,7 @@ extension PlaySoundsViewController: AVAudioPlayerDelegate {
             NSRunLoop.mainRunLoop().addTimer(self.stopTimer!, forMode: NSDefaultRunLoopMode)
         }
         
+        //Try starting the audioEngine
         do {
             try audioEngine.start()
         } catch {
@@ -119,7 +121,6 @@ extension PlaySoundsViewController: AVAudioPlayerDelegate {
     }
     
     func stopAudio() {
-        
         if let stopTimer = stopTimer {
             stopTimer.invalidate()
         }

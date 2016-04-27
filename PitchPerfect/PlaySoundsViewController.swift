@@ -11,6 +11,7 @@ import AVFoundation
 
 class PlaySoundsViewController: UIViewController {
     
+    //IBOutlets for all the Buttons
     @IBOutlet weak var snailButton: UIButton!
     @IBOutlet weak var rabbitButton: UIButton!
     @IBOutlet weak var chipmunkButton: UIButton!
@@ -19,16 +20,20 @@ class PlaySoundsViewController: UIViewController {
     @IBOutlet weak var reverbButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     
+    //Variables for the audioPlayer
     var recordedAudioURL: NSURL!
     var audioFile: AVAudioFile!
     var audioEngine: AVAudioEngine!
     var audioPlayerNode: AVAudioPlayerNode!
     var stopTimer: NSTimer!
     
+    //Defining descriptions for the tags
     enum ButtonType: Int { case Slow = 0, Fast, Chipmunk, Vader, Echo, Reverb }
     
+    //Action for playing sound
     @IBAction func playSound(sender: UIButton) {
         print("playing sound")
+        //Switch statement to determine what effect to apply on audio playback
         switch (ButtonType(rawValue: sender.tag)!) {
         case .Slow: playSound(rate: 0.5)
         case .Fast: playSound(rate: 1.5)
@@ -37,6 +42,7 @@ class PlaySoundsViewController: UIViewController {
         case .Echo: playSound(echo: true)
         case .Reverb: playSound(reverb: true)
         }
+        //Configure the UI to playing, where all other effect buttons are disabled, and stop button is enabled
         configureUI(.Playing)
     }
     
@@ -48,7 +54,6 @@ class PlaySoundsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAudio()
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -57,19 +62,6 @@ class PlaySoundsViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

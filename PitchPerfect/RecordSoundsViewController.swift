@@ -13,22 +13,21 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     var audioRecorder:AVAudioRecorder!
 
+    //IBOutlets for the labels and buttons
     @IBOutlet weak var recordingLabel: UILabel!
     @IBOutlet weak var stopRecordingButton: UIButton!
     @IBOutlet weak var recordButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func RecordAudio(sender: AnyObject) {
-        print("Record button was pressed")
+        //Changing the UI to reflect a state of recording
         recordingLabel.text = "Recording in progress"
         recordButton.enabled = false
         stopRecordingButton.enabled = true
@@ -43,6 +42,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         let session = AVAudioSession.sharedInstance()
         try! session.setCategory(AVAudioSessionCategoryPlayAndRecord)
         
+        //Start recording
         try! audioRecorder = AVAudioRecorder(URL: filePath!, settings: [:])
         audioRecorder.delegate = self
         audioRecorder.meteringEnabled = true
@@ -50,6 +50,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         audioRecorder.record()
     }
     
+    //Changing the UI when the stop button is pressed
     @IBAction func StopRecording(sender: AnyObject) {
         stopRecordingButton.enabled = false
         recordButton.enabled = true
@@ -60,6 +61,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         try! audioSession.setActive(false)
     }
     
+    //Default UI Settings
     override func viewWillAppear(animated: Bool) {
         recordingLabel.text = "Tap to Record"
         stopRecordingButton.enabled = false
@@ -67,7 +69,8 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
-        
+        //Determining whether audio recorded sucessfully
+        //If recorded sucessfully, calls segue to move to next view
         if (flag) {
             self.performSegueWithIdentifier("stopRecording", sender:audioRecorder.url)
         }
@@ -76,6 +79,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
+    //Passes data over to next view before segue occurs
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "stopRecording") {
             let playSoundsVC = segue.destinationViewController as! PlaySoundsViewController
